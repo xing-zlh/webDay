@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>🎂 圆圆生日快乐</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #0a0e21;
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .stars {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 4rem;
+      color: #fff;
+    }
+
+    h1 {
+      font-size: 4rem;
+      margin-bottom: 2rem;
+      background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    .cake-card {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 2rem;
+      margin: 2rem;
+      transition: 0.4s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cake-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(255,107,107,0.3);
+    }
+
+    .cake {
+      width: 280px;
+      filter: drop-shadow(0 10px 20px rgba(255,214,107,0.5));
+    }
+
+    .message {
+      text-align: center;
+      font-size: 1.2rem;
+      line-height: 2;
+      max-width: 600px;
+      opacity: 0.9;
+      margin: 2rem 0;
+    }
+
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 10px rgba(255,107,107,0.5)); }
+      50% { filter: drop-shadow(0 0 20px rgba(255,214,107,0.8)); }
+    }
+
+    .particles {
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      background: radial-gradient(circle, #fff 20%, transparent 80%);
+      border-radius: 50%;
+      animation: particle 1s ease-out forwards;
+    }
+
+    @keyframes particle {
+      0% { transform: scale(0); opacity: 1; }
+      100% { transform: scale(2); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+<canvas class="stars"></canvas>
+
+<div class="container">
+  <h1>Happy Birthday 圆圆 🎉</h1>
+
+  <div class="cake-card">
+    <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png"
+         class="cake"
+         alt="生日蛋糕">
+  </div>
+
+  <div class="message">
+    <p>✨ 愿你的每一天都如星河般璀璨</p>
+    <p>🎁 愿所有美好都如期而至</p>
+    <p>🌸 新的一岁继续闪闪发光吧！</p>
+  </div>
+</div>
+
+<script>
+  // 星空背景
+  const canvas = document.querySelector('.stars');
+  const ctx = canvas.getContext('2d');
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  function drawStars() {
+    ctx.fillStyle = '#0a0e21';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    for(let i=0; i<200; i++) {
+      ctx.beginPath();
+      ctx.arc(
+              Math.random()*canvas.width,
+              Math.random()*canvas.height,
+              Math.random()*1.5,
+              0, Math.PI*2
+      );
+      ctx.fillStyle = `rgba(255,255,255,${Math.random()})`;
+      ctx.fill();
+    }
+  }
+
+  // 粒子动画
+  function createParticles(x, y) {
+    for(let i=0; i<10; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = x + 'px';
+      particle.style.top = y + 'px';
+      particle.style.animation = `particle ${Math.random()*0.5+0.5}s ease-out`;
+      document.body.appendChild(particle);
+
+      setTimeout(() => {
+        particle.remove();
+      }, 1000);
+    }
+  }
+
+  // 初始化
+  window.addEventListener('resize', () => {
+    resizeCanvas();
+    drawStars();
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    createParticles(e.clientX, e.clientY);
+  });
+
+  resizeCanvas();
+  drawStars();
+  setInterval(drawStars, 1000);
+</script>
+</body>
+</html>
